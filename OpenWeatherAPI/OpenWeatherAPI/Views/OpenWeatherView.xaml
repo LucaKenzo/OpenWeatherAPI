@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OpenWeatherAPI.Views.OpenWeatherView"
+             Title="OpenWeatherView">
+    <ContentPage.BindingContext>
+        <viewModels:OpenWeatherViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="20">
+            <!-- Weather Current Section -->
+            <Label Text="Current Weather" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Text="{Binding CurrentWeather.name}" FontSize="Medium" HorizontalOptions="Center" />
+            <Label Text="{Binding CurrentWeather.weather[0].FormattedDescription}" HorizontalOptions="Center" />
+            <Image Source="{Binding CurrentWeather.weather[0].WeatherIcon}" HeightRequest="100" HorizontalOptions="Center" />
+            <Label Text="{Binding CurrentWeather.main.temp, StringFormat='Temp: {0}°C'}" HorizontalOptions="Center" />
+
+            <!-- Forecast Section -->
+            <Label Text="5-Day Forecast" FontSize="Large" FontAttributes="Bold" Margin="0,20,0,10" />
+            <CollectionView ItemsSource="{Binding DailyForecasts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="5" Padding="10" CornerRadius="10" BorderColor="Gray">
+                            <StackLayout>
+                                <Label Text="{Binding DayOfWeek}" FontSize="Medium" />
+                                <Image Source="{Binding IconUrl}" HeightRequest="50" />
+                                <Label Text="{Binding temp.min, StringFormat='Min: {0}°C'}" />
+                                <Label Text="{Binding temp.max, StringFormat='Max: {0}°C'}" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
